@@ -1,0 +1,2 @@
+# covidmanager
+capstone project
