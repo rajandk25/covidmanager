@@ -1,12 +1,16 @@
 package com.manage.cov.covman.entity;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Embeddable
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Modification {
 
     @Column(name = "MODIFIED_AT")
