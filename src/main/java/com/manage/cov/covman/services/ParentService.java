@@ -48,4 +48,8 @@ public class ParentService {
 
         return null;
     }
+
+    public Parent getParentByEmail(Long userId) {
+        return parentRepository.findByUserId(userId);
+    }
 }

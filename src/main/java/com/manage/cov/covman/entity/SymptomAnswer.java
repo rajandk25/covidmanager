@@ -1,6 +1,8 @@
 package com.manage.cov.covman.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -27,5 +29,7 @@ public class SymptomAnswer implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "SYMPTOM_ANSWERS_ID")
+    @JsonBackReference
+    @ToString.Exclude
     private SymptomAnswers symptomAnswers;
 }

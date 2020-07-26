@@ -3,7 +3,6 @@ package com.manage.cov.covman.entity;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "SCHOOL_DISTRICT")
@@ -19,7 +18,7 @@ public class SchoolDistrict {
 
     @Embedded
     private Address address;
-
-    @OneToMany(mappedBy = "district", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<School> schools;
+/*
+    @OneToMany(mappedBy = "district", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private List<School> schools;*/
 }

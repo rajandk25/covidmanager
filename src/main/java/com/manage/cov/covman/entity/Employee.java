@@ -1,6 +1,8 @@
 package com.manage.cov.covman.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -16,12 +18,9 @@ public class Employee {
     @Column(name = "EMPLOYEE_ID")
     private Long id;
 
-    @ManyToMany(cascade = { CascadeType.ALL })
-    @JoinTable(
-            name = "Employee_Student",
-            joinColumns = { @JoinColumn(name = "EMPLOYEE_ID") },
-            inverseJoinColumns = { @JoinColumn(name = "STUDENT_ID") }
-    )
+    @ManyToMany(mappedBy = "employee", cascade = CascadeType.ALL)
+    @ToString.Exclude
+    @JsonIgnoreProperties("employee")
     private List<Student> students = new ArrayList<>();
 
     @OneToOne

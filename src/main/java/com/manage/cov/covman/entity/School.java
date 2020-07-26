@@ -3,7 +3,6 @@ package com.manage.cov.covman.entity;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "SCHOOL")
@@ -23,11 +22,5 @@ public class School {
     @ManyToOne
     @JoinColumn(name = "DISTRICT_ID")
     private SchoolDistrict district;
-
-    @OneToMany(mappedBy = "school")
-    private List<Employee> employee;
-
-    @OneToMany(mappedBy = "school")
-    private List<Student> student;
 
 }

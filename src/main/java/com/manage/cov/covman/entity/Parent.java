@@ -1,6 +1,8 @@
 package com.manage.cov.covman.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -17,6 +19,8 @@ public class Parent {
     private Long id;
 
     @OneToMany(mappedBy = "parent", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference
+    @ToString.Exclude
     private List<Student> students = new ArrayList<>();
 
     @OneToOne(cascade = CascadeType.ALL)

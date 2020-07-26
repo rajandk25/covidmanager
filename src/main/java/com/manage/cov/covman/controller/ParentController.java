@@ -23,7 +23,12 @@ public class ParentController {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Parent> parent(@PathVariable Long id) {
-        return new ResponseEntity<Parent>(parentService.getParent(id), HttpStatus.OK);
+        return new ResponseEntity<>(parentService.getParent(id), HttpStatus.OK);
+    }
+
+    @GetMapping(value = "/user/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Parent> parentByEmail(@PathVariable Long id) {
+        return new ResponseEntity<>(parentService.getParentByEmail(id), HttpStatus.OK);
     }
 
 

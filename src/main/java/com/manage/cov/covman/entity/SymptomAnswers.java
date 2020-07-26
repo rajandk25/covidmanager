@@ -1,7 +1,9 @@
 package com.manage.cov.covman.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.manage.cov.covman.utils.CheckerTypeEnum;
 import lombok.Data;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -19,11 +21,13 @@ public class SymptomAnswers implements Serializable {
     private Long id;
 
     //this means that use the property symptomAnswer in Symptom entity to map relationship
-    @OneToMany(mappedBy = "symptomAnswers")
+    @OneToMany(mappedBy = "symptomAnswers", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private List<SymptomAnswer> symptomAnswer;
 
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name="STUDENT_ID")
+    @JsonBackReference
     private Student student;
 
     //who is checking-in the student
