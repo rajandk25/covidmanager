@@ -1,5 +1,5 @@
 package com.manage.cov.covman.utils;
 
-public enum IncidentStateEnum {
+public enum ExposureStateEnum {
     OPEN, POSITIVE, NEGATIVE, RECOVERED
 }

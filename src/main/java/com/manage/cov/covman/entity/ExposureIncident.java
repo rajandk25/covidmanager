@@ -1,17 +1,17 @@
 package com.manage.cov.covman.entity;
 
-import com.manage.cov.covman.utils.IncidentStateEnum;
+import com.manage.cov.covman.utils.ExposureStateEnum;
 import lombok.Data;
 
 import javax.persistence.*;
 
 @Entity
-@Table(name = "INCIDENT")
+@Table(name = "EXPOSURE_INCIDENT")
 @Data
-public class Incident {
+public class ExposureIncident {
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
-    @Column(name = "INCIDENT_ID")
+    @Column(name = "EXPOSURE_ID")
     private Long id;
 
     @OneToOne
@@ -22,13 +22,9 @@ public class Incident {
     @JoinColumn(name = "EMPLOYEE_ID")
     private Employee employee;
 
-    @OneToOne
-    @JoinColumn(name = "SYMPTOM_ANSWERS_ID")
-    private SymptomAnswers symptomAnswers;
-
     @Column(name = "STATE")
     @Enumerated(EnumType.STRING)
-    private IncidentStateEnum incidentState;
+    private ExposureStateEnum exposureState;
 
     @Column(name = "COMMENTS")
     private String comments;

@@ -11,4 +11,6 @@ import java.util.List;
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
     List<Employee> findByUserRole(RoleEnum role);
+
+    Employee findByUserId(Long userId);
 }
