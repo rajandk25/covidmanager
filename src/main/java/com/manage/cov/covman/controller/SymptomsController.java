@@ -1,6 +1,5 @@
 package com.manage.cov.covman.controller;
 
-import com.manage.cov.covman.entity.Student;
 import com.manage.cov.covman.entity.SymptomAnswers;
 import com.manage.cov.covman.entity.SymptomQuestion;
 import com.manage.cov.covman.services.SymptomsService;
@@ -33,13 +32,13 @@ public class SymptomsController {
     //get today's checkIn
     @GetMapping(value = "/checkIn/{studentId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<SymptomAnswers> todayCheckInForStudent(@PathVariable Long studentId) {
-        return new ResponseEntity<SymptomAnswers>(symptomsService.getDailyCheckIn(studentId), HttpStatus.OK);
+        return new ResponseEntity<>(symptomsService.getDailyCheckIn(studentId), HttpStatus.OK);
     }
 
     //add today's check In
     @PostMapping(value = "/checkIn", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<SymptomAnswers> addDailyCheckIn(@RequestBody Student student) {
-        SymptomAnswers checkInCreated =  symptomsService.addDailyCheckIn(student);
+    public ResponseEntity<SymptomAnswers> addDailyCheckIn(@RequestBody SymptomAnswers dailyCheckIn) {
+        SymptomAnswers checkInCreated =  symptomsService.addDailyCheckIn(dailyCheckIn);
 
         if (checkInCreated != null) {
             return new ResponseEntity<>(checkInCreated, HttpStatus.CREATED);

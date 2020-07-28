@@ -51,10 +51,6 @@ public class Student implements Serializable {
     @ToString.Exclude
     private List<Employee> employee;
 
-    @OneToOne(mappedBy = "student", cascade = CascadeType.ALL)
-    @ToString.Exclude
-    private SymptomAnswers symptomAnswers;
-
     @ManyToOne
     @JoinColumn(name = "SCHOOL_ID")
     private School school;

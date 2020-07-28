@@ -22,10 +22,11 @@ public class ParentService {
 
     /**
      * Add a parent or return null in case of error
+     *
      * @param parent
      * @return Parent
      */
-    public Parent addParent(Parent parent){
+    public Parent addParent(Parent parent) {
         Parent created = null;
 
         try {
@@ -49,7 +50,18 @@ public class ParentService {
         return null;
     }
 
-    public Parent getParentByEmail(Long userId) {
-        return parentRepository.findByUserId(userId);
+    //Get parent along with students
+    //skip daily check-ins from students if those are not today's
+    public Parent getParentByUserId(Long userId) {
+        Parent parent = parentRepository.findByUserId(userId);
+
+        /*for (Student student : parent.getStudents()) {
+            if (student.getSymptomAnswers() != null &&
+                    student.getSymptomAnswers().getModification().getModifiedAt().isBefore(LocalDateTime.now())) {
+                student.setSymptomAnswers(null);
+            }
+        }*/
+
+        return parent;
     }
 }

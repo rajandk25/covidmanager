@@ -1,6 +1,5 @@
 package com.manage.cov.covman.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.manage.cov.covman.utils.CheckerTypeEnum;
 import lombok.Data;
 import lombok.ToString;
@@ -27,7 +26,6 @@ public class SymptomAnswers implements Serializable {
 
     @OneToOne
     @JoinColumn(name="STUDENT_ID")
-    @JsonBackReference
     private Student student;
 
     //who is checking-in the student

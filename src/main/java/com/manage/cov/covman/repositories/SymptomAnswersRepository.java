@@ -4,10 +4,10 @@ import com.manage.cov.covman.entity.SymptomAnswers;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Repository
 public interface SymptomAnswersRepository extends JpaRepository<SymptomAnswers, Long> {
 
-    SymptomAnswers findByStudentIdAndModificationModifiedAt(Long studentId, LocalDate today);
+    SymptomAnswers findByStudentIdAndModificationModifiedAtAfter(Long studentId, LocalDateTime start);
 }

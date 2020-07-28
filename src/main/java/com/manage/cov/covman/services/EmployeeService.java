@@ -29,6 +29,7 @@ public class EmployeeService {
         return employeeRepository.findByUserRole(RoleEnum.TEACHER);
     }
 
+    //only get today's check-In for all the students
     public Employee getEmployee(Long employeeUserId) {
         return employeeRepository.findByUserId(employeeUserId);
     }

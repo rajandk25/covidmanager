@@ -5,6 +5,7 @@ import com.manage.cov.covman.repositories.SymptomAnswersRepository;
 import com.manage.cov.covman.repositories.SymptomQuestionRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -29,22 +30,25 @@ public class SymptomsService {
     }
 
     public SymptomAnswers getDailyCheckIn(Long studentId) {
-        return checkInRepository.findByStudentIdAndModificationModifiedAt(studentId, LocalDateTime.now().toLocalDate());
+        LocalDate today = LocalDate.now();
+        LocalDateTime startOfDay = today.atStartOfDay();
+
+        SymptomAnswers todayCheckIn =  checkInRepository.findByStudentIdAndModificationModifiedAtAfter(studentId, startOfDay);
+
+        return todayCheckIn;
     }
 
-    public SymptomAnswers addDailyCheckIn(Student student) {
-        SymptomAnswers checkIn = student.getSymptomAnswers();
-        Student studentWithParent = studentService.getParent(student.getId());
+    public SymptomAnswers addDailyCheckIn(SymptomAnswers checkIn) {
+        Student studentWithParent = studentService.getParent(checkIn.getStudent().getId());
+
         String emailId = studentWithParent.getParent().getUser().getEmail();
         Modification modification = new Modification(LocalDateTime.now(), emailId);
-        checkIn.setStudent(student);
 
         for (SymptomAnswer answer: checkIn.getSymptomAnswer()) {
             answer.setSymptomAnswers(checkIn);
         }
 
         checkIn.setModification(modification);
-        student.setModification(modification);
 
         return checkInRepository.save(checkIn);
     }
