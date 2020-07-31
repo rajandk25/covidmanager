@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping ("/students")
-@CrossOrigin(origins = "http://localhost:4200")
+@CrossOrigin()
 public class StudentController {
 
     private StudentService studentService;
@@ -24,7 +24,7 @@ public class StudentController {
 
     @GetMapping(value = "/{id}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Student> parent(@PathVariable Long id) {
-        return new ResponseEntity<Student>(studentService.getParent(id), HttpStatus.OK);
+        return new ResponseEntity<>(studentService.getParent(id), HttpStatus.OK);
     }
 
     @PostMapping(produces = MediaType.APPLICATION_JSON_VALUE)
@@ -35,6 +35,34 @@ public class StudentController {
             return new ResponseEntity<>(created, HttpStatus.CREATED);
         }
 
-        return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+    }
+
+
+    @PutMapping(produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<Student> updateStudent(@RequestBody Student student) {
+        Student updated = studentService.addStudent(student);
+
+        if (updated != null) {
+            return new ResponseEntity<>(updated, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(null, HttpStatus.BAD_REQUEST);
+    }
+
+    /**
+     * Deletes student and their symptoms
+     * @param studentId
+     * @return
+     */
+    @DeleteMapping(value = "/{studentId}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity deleteStudent(@PathVariable Long studentId) {
+        boolean deleted = studentService.deleteStudent(studentId);
+
+        if (deleted) {
+            return new ResponseEntity<>(deleted, HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 }
