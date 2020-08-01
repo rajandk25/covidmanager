@@ -23,7 +23,7 @@ public class Employee {
     @JsonIgnoreProperties("employee")
     private List<Student> students = new ArrayList<>();
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private User user;
 
     @ManyToOne

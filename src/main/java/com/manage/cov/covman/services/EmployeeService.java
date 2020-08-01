@@ -1,13 +1,12 @@
 package com.manage.cov.covman.services;
 
 import com.manage.cov.covman.entity.Employee;
-import com.manage.cov.covman.entity.ExposureIncident;
-import com.manage.cov.covman.entity.Modification;
+import com.manage.cov.covman.entity.Student;
 import com.manage.cov.covman.repositories.EmployeeRepository;
-import com.manage.cov.covman.repositories.ExposureIncidentRepository;
 import com.manage.cov.covman.utils.RoleEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,16 +16,19 @@ public class EmployeeService {
 
     private EmployeeRepository employeeRepository;
 
-    private ExposureIncidentRepository exposureIncidentRepository;
 
     @Autowired
-    public EmployeeService(EmployeeRepository employeeRepository, ExposureIncidentRepository exposureIncidentRepository) {
+    public EmployeeService(EmployeeRepository employeeRepository) {
         this.employeeRepository = employeeRepository;
-        this.exposureIncidentRepository = exposureIncidentRepository;
+
     }
 
     public List<Employee> getAllTeachers() {
         return employeeRepository.findByUserRole(RoleEnum.TEACHER);
+    }
+
+    public List<Employee> getAllEmployees() {
+        return employeeRepository.findAll();
     }
 
     //only get today's check-In for all the students
@@ -34,14 +36,29 @@ public class EmployeeService {
         return employeeRepository.findByUserId(employeeUserId);
     }
 
-    public ExposureIncident addExposureIncident(ExposureIncident exposureIncident) {
-        exposureIncident.setModification(new Modification(LocalDateTime.now(), exposureIncident.getEmployee().getUser().getEmail()));
 
-        return this.exposureIncidentRepository.save(exposureIncident);
+    public Employee modifyEmployee(Employee employee) {
+        employee.getModification().setModifiedAt(LocalDateTime.now());
+
+        return employeeRepository.save(employee);
     }
 
-    //get all exposures for given student Ids
-    public List<ExposureIncident> getExposuresForStudents(List<Long> studentIds) {
-        return exposureIncidentRepository.findByStudentIdIn(studentIds);
+    public boolean deleteEmployee(Long id) {
+        try {
+            Employee existing = employeeRepository.getOne(id);
+
+            if (!CollectionUtils.isEmpty(existing.getStudents())) {
+                for (Student student: existing.getStudents()) {
+                    student.getEmployee().remove(existing);
+                }
+
+                existing.getStudents().clear();
+            }
+
+            employeeRepository.delete(existing);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }
